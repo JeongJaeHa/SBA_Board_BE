@@ -46,4 +46,10 @@ export class AuthService {
       message: 'login success'
     }
   } 
+
+  async tokenValidateUser(payload: PayLoad): Promise<UserDto | undefined> {
+    return await this.userService.findByFields({
+      where: { id: payload.id }
+    })
+  }
 }
