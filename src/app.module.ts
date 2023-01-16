@@ -5,9 +5,11 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { User } from './auth/entities/user.entity';
+import { PostModule } from './post/post.module';
+import { Post } from './post/entities/post.entity';
 @Module({
   imports: [ConfigModule.forRoot({
-      isGlobal: true,
+      isGlobal: false,
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -16,11 +18,12 @@ import { User } from './auth/entities/user.entity';
       username: process.env.TYPEORM_USERNAME,
       password: process.env.TYPEORM_PASSWORD, 
       database: process.env.TYPEORM_DATABASE,
-      entities: [User],
+      entities: [User, Post],
+      timezone: 'Asia/Seoul',
       logging: true,
       synchronize: false,
     }
-  ),AuthModule],
+  ),AuthModule, PostModule],
   controllers: [AppController],
   providers: [AppService],
 })
