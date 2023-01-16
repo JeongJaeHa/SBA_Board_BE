@@ -29,13 +29,15 @@ export class AuthService {
     if(nicknameFind) {
       throw new BadRequestException('nickname already registered');
     }
-    return this.userService.save(newUser);
+    this.userService.save(newUser);
+    return Object.assign({"message": "register success"})
   }
 
   async validateUser(UserDto: UserDto): Promise<Object | undefined> {
     const userFind: User = await this.userService.findByFields({
       where: { email: UserDto.email }
     })
+
     const validatePassword = await bcrypt.compare(UserDto.password, userFind.password);
     if(!userFind || !validatePassword) {
       throw new UnauthorizedException()
@@ -43,6 +45,7 @@ export class AuthService {
     const payload: PayLoad = { id: userFind.id, nickname: userFind.nickname}
     return {
       accessToken: this.jwtService.sign(payload),
+      nickname: userFind.nickname,
       message: 'login success'
     }
   } 
