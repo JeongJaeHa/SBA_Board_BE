@@ -38,6 +38,10 @@ export class AuthService {
       where: { email: UserDto.email }
     })
 
+    if(!userFind) {
+      throw new BadRequestException('Email not exists');
+    }
+
     const validatePassword = await bcrypt.compare(UserDto.password, userFind.password);
     if(!userFind || !validatePassword) {
       throw new UnauthorizedException()

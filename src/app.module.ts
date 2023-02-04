@@ -20,7 +20,7 @@ import { Post } from './post/entities/post.entity';
       database: process.env.TYPEORM_DATABASE,
       entities: [User, Post],
       timezone: 'Asia/Seoul',
-      logging: true,
+      logging: false,
       synchronize: false,
     }
   ),AuthModule, PostModule],
